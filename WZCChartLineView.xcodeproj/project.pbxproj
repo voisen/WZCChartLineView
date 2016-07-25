@@ -1,0 +1,353 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C4B4896A1D45DEC500F77591 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B489521D45DEC500F77591 /* AppDelegate.m */; };
+		C4B4896B1D45DEC500F77591 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4B489531D45DEC500F77591 /* Assets.xcassets */; };
+		C4B4896C1D45DEC500F77591 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4B489541D45DEC500F77591 /* LaunchScreen.storyboard */; };
+		C4B4896D1D45DEC500F77591 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4B489561D45DEC500F77591 /* Main.storyboard */; };
+		C4B4896E1D45DEC500F77591 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4B489581D45DEC500F77591 /* Info.plist */; };
+		C4B4896F1D45DEC500F77591 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B489591D45DEC500F77591 /* main.m */; };
+		C4B489701D45DEC500F77591 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B4895B1D45DEC500F77591 /* ViewController.m */; };
+		C4B489711D45DEC500F77591 /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B4895E1D45DEC500F77591 /* ChartView.m */; };
+		C4B489721D45DEC500F77591 /* PopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B489611D45DEC500F77591 /* PopoverView.m */; };
+		C4B489731D45DEC500F77591 /* UIBezierPath+LxThroughPointsBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B489651D45DEC500F77591 /* UIBezierPath+LxThroughPointsBezier.m */; };
+		C4B489741D45DEC500F77591 /* UIView+WZCViewCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B489671D45DEC500F77591 /* UIView+WZCViewCategory.m */; };
+		C4B489751D45DEC500F77591 /* WZCChartLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B489691D45DEC500F77591 /* WZCChartLine.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C49010311D3F0B4B0080B525 /* WZCChartLineView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WZCChartLineView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4B489511D45DEC500F77591 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C4B489521D45DEC500F77591 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C4B489531D45DEC500F77591 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C4B489551D45DEC500F77591 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C4B489571D45DEC500F77591 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C4B489581D45DEC500F77591 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4B489591D45DEC500F77591 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C4B4895A1D45DEC500F77591 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		C4B4895B1D45DEC500F77591 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		C4B4895D1D45DEC500F77591 /* ChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartView.h; sourceTree = "<group>"; };
+		C4B4895E1D45DEC500F77591 /* ChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartView.m; sourceTree = "<group>"; };
+		C4B489601D45DEC500F77591 /* PopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverView.h; sourceTree = "<group>"; };
+		C4B489611D45DEC500F77591 /* PopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverView.m; sourceTree = "<group>"; };
+		C4B489621D45DEC500F77591 /* PopoverView_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverView_Configuration.h; sourceTree = "<group>"; };
+		C4B489631D45DEC500F77591 /* PopoverViewCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverViewCompatibility.h; sourceTree = "<group>"; };
+		C4B489641D45DEC500F77591 /* UIBezierPath+LxThroughPointsBezier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+LxThroughPointsBezier.h"; sourceTree = "<group>"; };
+		C4B489651D45DEC500F77591 /* UIBezierPath+LxThroughPointsBezier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+LxThroughPointsBezier.m"; sourceTree = "<group>"; };
+		C4B489661D45DEC500F77591 /* UIView+WZCViewCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WZCViewCategory.h"; sourceTree = "<group>"; };
+		C4B489671D45DEC500F77591 /* UIView+WZCViewCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WZCViewCategory.m"; sourceTree = "<group>"; };
+		C4B489681D45DEC500F77591 /* WZCChartLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZCChartLine.h; sourceTree = "<group>"; };
+		C4B489691D45DEC500F77591 /* WZCChartLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZCChartLine.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C490102E1D3F0B4B0080B525 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C49010281D3F0B4B0080B525 = {
+			isa = PBXGroup;
+			children = (
+				C4B489501D45DEC500F77591 /* WZCChartLineView */,
+				C49010321D3F0B4B0080B525 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C49010321D3F0B4B0080B525 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C49010311D3F0B4B0080B525 /* WZCChartLineView.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C4B489501D45DEC500F77591 /* WZCChartLineView */ = {
+			isa = PBXGroup;
+			children = (
+				C4B4895C1D45DEC500F77591 /* WZCChartLineView */,
+				C4B489511D45DEC500F77591 /* AppDelegate.h */,
+				C4B489521D45DEC500F77591 /* AppDelegate.m */,
+				C4B489531D45DEC500F77591 /* Assets.xcassets */,
+				C4B489541D45DEC500F77591 /* LaunchScreen.storyboard */,
+				C4B489561D45DEC500F77591 /* Main.storyboard */,
+				C4B489581D45DEC500F77591 /* Info.plist */,
+				C4B489591D45DEC500F77591 /* main.m */,
+				C4B4895A1D45DEC500F77591 /* ViewController.h */,
+				C4B4895B1D45DEC500F77591 /* ViewController.m */,
+			);
+			path = WZCChartLineView;
+			sourceTree = "<group>";
+		};
+		C4B4895C1D45DEC500F77591 /* WZCChartLineView */ = {
+			isa = PBXGroup;
+			children = (
+				C4B4895F1D45DEC500F77591 /* PopoverView */,
+				C4B4895D1D45DEC500F77591 /* ChartView.h */,
+				C4B4895E1D45DEC500F77591 /* ChartView.m */,
+				C4B489641D45DEC500F77591 /* UIBezierPath+LxThroughPointsBezier.h */,
+				C4B489651D45DEC500F77591 /* UIBezierPath+LxThroughPointsBezier.m */,
+				C4B489661D45DEC500F77591 /* UIView+WZCViewCategory.h */,
+				C4B489671D45DEC500F77591 /* UIView+WZCViewCategory.m */,
+				C4B489681D45DEC500F77591 /* WZCChartLine.h */,
+				C4B489691D45DEC500F77591 /* WZCChartLine.m */,
+			);
+			path = WZCChartLineView;
+			sourceTree = "<group>";
+		};
+		C4B4895F1D45DEC500F77591 /* PopoverView */ = {
+			isa = PBXGroup;
+			children = (
+				C4B489601D45DEC500F77591 /* PopoverView.h */,
+				C4B489611D45DEC500F77591 /* PopoverView.m */,
+				C4B489621D45DEC500F77591 /* PopoverView_Configuration.h */,
+				C4B489631D45DEC500F77591 /* PopoverViewCompatibility.h */,
+			);
+			path = PopoverView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C49010301D3F0B4B0080B525 /* WZCChartLineView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C49010481D3F0B4B0080B525 /* Build configuration list for PBXNativeTarget "WZCChartLineView" */;
+			buildPhases = (
+				C490102D1D3F0B4B0080B525 /* Sources */,
+				C490102E1D3F0B4B0080B525 /* Frameworks */,
+				C490102F1D3F0B4B0080B525 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WZCChartLineView;
+			productName = "曲线-新算法";
+			productReference = C49010311D3F0B4B0080B525 /* WZCChartLineView.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C49010291D3F0B4B0080B525 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "邬志成";
+				TargetAttributes = {
+					C49010301D3F0B4B0080B525 = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = U4M9ZNVDZ2;
+					};
+				};
+			};
+			buildConfigurationList = C490102C1D3F0B4B0080B525 /* Build configuration list for PBXProject "WZCChartLineView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C49010281D3F0B4B0080B525;
+			productRefGroup = C49010321D3F0B4B0080B525 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C49010301D3F0B4B0080B525 /* WZCChartLineView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C490102F1D3F0B4B0080B525 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4B4896E1D45DEC500F77591 /* Info.plist in Resources */,
+				C4B4896D1D45DEC500F77591 /* Main.storyboard in Resources */,
+				C4B4896B1D45DEC500F77591 /* Assets.xcassets in Resources */,
+				C4B4896C1D45DEC500F77591 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C490102D1D3F0B4B0080B525 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4B489701D45DEC500F77591 /* ViewController.m in Sources */,
+				C4B489721D45DEC500F77591 /* PopoverView.m in Sources */,
+				C4B4896F1D45DEC500F77591 /* main.m in Sources */,
+				C4B489731D45DEC500F77591 /* UIBezierPath+LxThroughPointsBezier.m in Sources */,
+				C4B4896A1D45DEC500F77591 /* AppDelegate.m in Sources */,
+				C4B489711D45DEC500F77591 /* ChartView.m in Sources */,
+				C4B489741D45DEC500F77591 /* UIView+WZCViewCategory.m in Sources */,
+				C4B489751D45DEC500F77591 /* WZCChartLine.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C4B489541D45DEC500F77591 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4B489551D45DEC500F77591 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		C4B489561D45DEC500F77591 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4B489571D45DEC500F77591 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C49010461D3F0B4B0080B525 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C49010471D3F0B4B0080B525 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C49010491D3F0B4B0080B525 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "$(SRCROOT)/WZCChartLineView/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zhicheng.wu.;
+				PRODUCT_NAME = WZCChartLineView;
+			};
+			name = Debug;
+		};
+		C490104A1D3F0B4B0080B525 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "$(SRCROOT)/WZCChartLineView/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zhicheng.wu.;
+				PRODUCT_NAME = WZCChartLineView;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C490102C1D3F0B4B0080B525 /* Build configuration list for PBXProject "WZCChartLineView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C49010461D3F0B4B0080B525 /* Debug */,
+				C49010471D3F0B4B0080B525 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C49010481D3F0B4B0080B525 /* Build configuration list for PBXNativeTarget "WZCChartLineView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C49010491D3F0B4B0080B525 /* Debug */,
+				C490104A1D3F0B4B0080B525 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C49010291D3F0B4B0080B525 /* Project object */;
+}
