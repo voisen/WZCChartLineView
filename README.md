@@ -1,9 +1,6 @@
 # WZCChartLineView
 一款可最大化自定义的折线图与曲线图
 
-
-
-
 ##特性
 * 支持图例显示
 * 支持图例自由拖动
@@ -80,3 +77,12 @@ v.colorsArray = @[[UIColor greenColor],[UIColor redColor]];
 [self.view addSubview:v];
 
 ~~~~
+
+##广告
+
+### What ? 什么? 英文文档看不懂? 不会使用 MKNetworkKit ? 这么好的框架都不会?
+
+### OUT啦...我们有中文文档 ! --> https://github.com/voisen/MKNetworkKit-chinese
+
+~~~~ 一笑而过  ~~~~  风中凌乱  ~~~~   不知所措     ~~~~~~
+
