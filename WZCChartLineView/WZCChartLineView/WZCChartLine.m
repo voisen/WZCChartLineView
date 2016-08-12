@@ -132,11 +132,13 @@
     if(Show_Coords_Y_Verticlal_Line){
         UIBezierPath *Coords_Y_Verticlal_Line_path = [UIBezierPath bezierPath];
         for (NSNumber *value in coords_y_tips) {
-            CGFloat y_tip = [value floatValue];
-            UIBezierPath *tip_path = [UIBezierPath bezierPath];
-            [tip_path moveToPoint:CGPointMake(0, y_tip)];
-            [tip_path addLineToPoint:CGPointMake(coord_x_right_value - (max_label_size.width + Coords_X_Lable_Space) / 2.0f, y_tip)];
-            [Coords_Y_Verticlal_Line_path appendPath:tip_path];
+            @autoreleasepool {
+                CGFloat y_tip = [value floatValue];
+                UIBezierPath *tip_path = [UIBezierPath bezierPath];
+                [tip_path moveToPoint:CGPointMake(0, y_tip)];
+                [tip_path addLineToPoint:CGPointMake(coord_x_right_value - (max_label_size.width + Coords_X_Lable_Space) / 2.0f, y_tip)];
+                [Coords_Y_Verticlal_Line_path appendPath:tip_path];
+            }
         }
         
         //添加y坐标竖线的图层
