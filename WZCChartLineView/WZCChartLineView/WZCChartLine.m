@@ -13,7 +13,6 @@
 /*计算的宏*/
 #define ABS_VALUE(x,y) (MAX(x,y)-MIN(x,y))
 /*配置线条的宏*/
-
 #define Arrows_Size 3 //箭头半径
 #define Arrows_Height 6 //箭头的高度
 #define Coords_lineColor [UIColor blackColor].CGColor //坐标线的颜色
@@ -26,6 +25,10 @@
 #define Coords_X_Verticlal_Line_Width 0.8 //垂直于X轴的线条宽度
 #define Coords_Values_Line_Width 1.8 //折线的线条宽度
 #define Coords_Legend_Font_Size 15 //图例的字体大小
+#define Coords_Y_Verticlal_Line_Color [UIColor lightGrayColor].CGColor //垂直于Y轴的线条颜色
+#define Coords_Y_Verticlal_Line_Width 0.8 //垂直于Y轴的线条宽度
+#define Show_Coords_X_Verticlal_Line YES // 显示垂直于X轴的线条
+#define Show_Coords_Y_Verticlal_Line YES //显示垂直于Y轴的线条
 
 @interface WZCChartLine()
 //转换后的坐标点
@@ -49,7 +52,7 @@
 /**
  *  各种距离
  */
-@property (assign,nonatomic) CGFloat offset_top;    
+@property (assign,nonatomic) CGFloat offset_top;
 
 @property (assign,nonatomic) CGFloat offset_bottom;
 
@@ -60,9 +63,10 @@
 @end
 
 @implementation WZCChartLine{
-
-    UIView *legendView;
-
+    
+    UIView *legendView; //图例视图
+    NSArray *coords_y_tips;
+    
 }
 
 -(void)startDrawWithLineType:(WZCChartLineType)lineType{
@@ -124,10 +128,31 @@
     [coordsArrow_path moveToPoint:CGPointMake(coord_x_right_value - Arrows_Height, coord_x_yValue - Arrows_Size)];
     [coordsArrow_path addLineToPoint:CGPointMake(coord_x_right_value, coord_x_yValue)];
     [coordsArrow_path addLineToPoint:CGPointMake(coord_x_right_value - Arrows_Height, coord_x_yValue + Arrows_Size)];
+    //绘制垂直于 Y 轴的线
+    if(Show_Coords_Y_Verticlal_Line){
+        UIBezierPath *Coords_Y_Verticlal_Line_path = [UIBezierPath bezierPath];
+        for (NSNumber *value in coords_y_tips) {
+            CGFloat y_tip = [value floatValue];
+            UIBezierPath *tip_path = [UIBezierPath bezierPath];
+            [tip_path moveToPoint:CGPointMake(0, y_tip)];
+            [tip_path addLineToPoint:CGPointMake(coord_x_right_value - (max_label_size.width + Coords_X_Lable_Space) / 2.0f, y_tip)];
+            [Coords_Y_Verticlal_Line_path appendPath:tip_path];
+        }
+        
+        //添加y坐标竖线的图层
+        CAShapeLayer *coords_y_Verticlal_Line_layer = [[CAShapeLayer alloc]init];
+        coords_y_Verticlal_Line_layer.frame = _draw_view.bounds;
+        coords_y_Verticlal_Line_layer.path = Coords_Y_Verticlal_Line_path.CGPath;
+        coords_y_Verticlal_Line_layer.lineWidth = Coords_Y_Verticlal_Line_Width;
+        coords_y_Verticlal_Line_layer.strokeColor = Coords_Y_Verticlal_Line_Color;
+        coords_y_Verticlal_Line_layer.fillColor = [UIColor clearColor].CGColor;
+        [_draw_view.layer addSublayer:coords_y_Verticlal_Line_layer];
+        
+    }
     
     //绘制X轴的竖线
+    
     UIBezierPath *Coords_X_Verticlal_Line_path = [UIBezierPath bezierPath];
-//    CGFloat coords_min_y = self.offset_top / 1.2f;
     CGFloat coords_max_y = coord_x_yValue;
     CGFloat coords_min_y = coords_max_y - [self getMaxYValue] * self.scale_Value;
     
@@ -143,25 +168,30 @@
             x_label_tmp.textAlignment = NSTextAlignmentCenter;
             x_label_tmp.font = [UIFont systemFontOfSize:Coords_X_LableFont_Size];
             [_draw_view addSubview:x_label_tmp];
-            UIBezierPath *coords_x_V_tmp = [UIBezierPath bezierPath];
-            [coords_x_V_tmp moveToPoint:CGPointMake(label_CenterX, coords_min_y)];
-            [coords_x_V_tmp addLineToPoint:CGPointMake(label_CenterX, coords_max_y)];
-            [Coords_X_Verticlal_Line_path appendPath:coords_x_V_tmp];
+            if(Show_Coords_X_Verticlal_Line){
+                UIBezierPath *coords_x_V_tmp = [UIBezierPath bezierPath];
+                [coords_x_V_tmp moveToPoint:CGPointMake(label_CenterX, coords_min_y)];
+                [coords_x_V_tmp addLineToPoint:CGPointMake(label_CenterX, coords_max_y)];
+                [Coords_X_Verticlal_Line_path appendPath:coords_x_V_tmp];
+            }
         }
     }];
+    if(Show_Coords_X_Verticlal_Line){
+        //添加x坐标竖线的图层
+        CAShapeLayer *coords_x_Verticlal_Line_layer = [[CAShapeLayer alloc]init];
+        coords_x_Verticlal_Line_layer.frame = _draw_view.bounds;
+        coords_x_Verticlal_Line_layer.path = Coords_X_Verticlal_Line_path.CGPath;
+        coords_x_Verticlal_Line_layer.lineWidth = Coords_X_Verticlal_Line_Width;
+        coords_x_Verticlal_Line_layer.strokeColor = Coords_X_Verticlal_Line_Color;
+        coords_x_Verticlal_Line_layer.fillColor = [UIColor clearColor].CGColor;
+        [_draw_view.layer addSublayer:coords_x_Verticlal_Line_layer];
+    }
     
     //汇总path
     [coords_path appendPath:coord_x_path];
     [coords_path appendPath:coordsArrow_path];
     
-    //添加x坐标竖线的图层
-    CAShapeLayer *coords_x_Verticlal_Line_layer = [[CAShapeLayer alloc]init];
-    coords_x_Verticlal_Line_layer.frame = _draw_view.bounds;
-    coords_x_Verticlal_Line_layer.path = Coords_X_Verticlal_Line_path.CGPath;
-    coords_x_Verticlal_Line_layer.lineWidth = Coords_X_Verticlal_Line_Width;
-    coords_x_Verticlal_Line_layer.strokeColor = Coords_X_Verticlal_Line_Color;
-    coords_x_Verticlal_Line_layer.fillColor = [UIColor clearColor].CGColor;
-    [_draw_view.layer addSublayer:coords_x_Verticlal_Line_layer];
+    
     
     //添加坐标的图层
     CAShapeLayer *coords_layer = [[CAShapeLayer alloc]init];
@@ -183,8 +213,7 @@
     CGFloat maxY_value = [self getMaxYValue] * 1.0f;
     //步进值
     CGFloat step_value = (maxY_value / Coords_Y_Tip);
-
-
+    
     UIView *y_CoordView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.offset_left, self.height)];
     _y_coord_View = y_CoordView;
     
@@ -211,7 +240,7 @@
     UIBezierPath *coords_steps = [UIBezierPath bezierPath];
     
     UIFont *font = [UIFont systemFontOfSize:Coords_Y_LableFont_Size];
-    
+    NSMutableArray *tips_array = [NSMutableArray array];
     for (int i = 0; i <= Coords_Y_Tip; i ++) {
         @autoreleasepool {
             UILabel *y_label_tmp = [[UILabel alloc]init];
@@ -225,7 +254,6 @@
                 y_value = _y_coord_View.height - ((int)step_value * i * _scale_Value + self.offset_bottom);
             }
             y_label_tmp.font = font;
-            
             y_label_tmp.size = [self getLabelWidthWithStr:y_label_tmp.text font:font];
             y_label_tmp.height = Coords_Y_LableFont_Size;
             y_label_tmp.center = CGPointMake(_y_coord_View.width - Arrows_Size * 2 - Coords_Y_Tip_Width - y_label_tmp.width / 2.0f, y_value);
@@ -238,10 +266,12 @@
             
             [tmp_path moveToPoint:CGPointMake(_y_coord_View.width - Arrows_Size - Coords_Y_Tip_Width, y_value)];
             [tmp_path addLineToPoint:CGPointMake(_y_coord_View.width - Arrows_Size, y_value)];
+            [tips_array addObject:@(y_value)];
             [coords_steps appendPath:tmp_path];
             
         }
     }
+    coords_y_tips = tips_array;
     //汇总路径
     [y_coord_path appendPath:arrows_path];
     [y_coord_path appendPath:coords_steps];
@@ -253,7 +283,6 @@
     coordsLayer.strokeColor = Coords_lineColor;
     coordsLayer.fillColor = [UIColor clearColor].CGColor;
     [_y_coord_View.layer addSublayer:coordsLayer];
-    
     [self addSubview:_y_coord_View];
 }
 
@@ -374,7 +403,7 @@
             lab_tmp.x = offset_space;
             lab_tmp.y = i * maxTitleSize.height;
             lab_tmp.textAlignment = NSTextAlignmentCenter;
-    #warning 设置图例文本的颜色 set legend text colors
+#warning 设置图例文本的颜色 set legend text colors
             lab_tmp.textColor = [UIColor grayColor];//self.colorsArray[i];
             lab_tmp.text = _y_titles[i];
             lab_tmp.font = [UIFont systemFontOfSize:Coords_Legend_Font_Size  weight:bold];
@@ -651,8 +680,8 @@ CGPoint legend_point;
         if (point.y > self.height - legendView.height / 2.0f) {
             point.y = self.height - legendView.height / 2.0f;
         }
-
-
+        
+        
         legendView.center = point;
     }
 }
