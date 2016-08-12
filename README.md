@@ -10,6 +10,10 @@
 * 支持多条走势线在一个表上显示
 * 其他...
 
+##更新日志
+
+2016.8.12 添加可控参数,控制是否显示辅助线条;增加垂直于 Y 轴的辅助线(应网友需求)
+
 ##效果图
 
 * 不要纠结,图例可以任意拖动
@@ -55,6 +59,12 @@
 #define Coords_X_Verticlal_Line_Width 0.8 //垂直于X轴的线条宽度
 #define Coords_Values_Line_Width 1.8 //折线的线条宽度
 #define Coords_Legend_Font_Size 15 //图例的字体大小
+#define Coords_Y_Verticlal_Line_Color [UIColor lightGrayColor].CGColor //垂直于Y轴的线条颜色
+#define Coords_Y_Verticlal_Line_Width 0.8 //垂直于Y轴的线条宽度
+
+//新增---->2016.8.12
+#define Show_Coords_X_Verticlal_Line YES // 显示垂直于X轴的线条
+#define Show_Coords_Y_Verticlal_Line YES //显示垂直于Y轴的线条
 
 ~~~~
 
