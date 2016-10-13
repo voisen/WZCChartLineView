@@ -256,6 +256,9 @@
 -(void)drawCoordindined_Y{
     //最大坐标(到顶)
     CGFloat maxY_value = [self getMaxYValue] * 1.0f - self.minY;
+    if (maxY_value == 0) {
+        maxY_value = 1;
+    }
     //步进值
     CGFloat step_value = (maxY_value / Coords_Y_Tip);
     
