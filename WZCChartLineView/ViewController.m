@@ -34,16 +34,17 @@
     for (int i = 0; i < 8; i ++) {
         NSMutableArray *arr = [NSMutableArray array];
         for (int j = 0; j < v.x_values.count; j ++) {
-            NSInteger value = arc4random_uniform(10);
-            [arr addObject:[NSString stringWithFormat:@"%ld",value]];
+            CGFloat value = - arc4random_uniform(10);
+            [arr addObject:[NSString stringWithFormat:@"%0.2f",value]];
         }
         [y_array addObject:arr];
     }
     // y轴坐标数组
-    v.y_values = y_array;
+    v.y_values = @[@[@"-99",@"-65",@"-72",@"-87",@"-33",@"-43",@"99",@"65",@"72",@"87",@"33",@"43"]];//y_array;
     //折线名称
-    v.y_titles = @[@"黄金",@"黄金珠宝",@"项链首饰",@"项链",@"首饰",@"金币",@"销售量",@"单价浮动"];
+    v.y_titles = @[@"测试"];//@[@"黄金",@"黄金珠宝",@"项链首饰",@"项链",@"首饰",@"金币",@"销售量",@"单价浮动"];
     [v setMinY:-1];
+    [v setXCoordinatesLocationInYValue:0];
     [self.view addSubview:v];
 }
 

@@ -35,5 +35,12 @@ typedef enum : NSInteger {
  *  @param minValue 最小的 Y 值 (设置负数可以自动设置 Y 值,从最小的 Y 值起步)
  */
 - (void)setMinY:(CGFloat)minValue;
+
+/**
+ *  设置 X 坐标轴的位置
+ *
+ *  @param minValue 对应的 Y 值(默认为最小值)
+ */
+- (void)setXCoordinatesLocationInYValue:(CGFloat)yValue;
 @end
 

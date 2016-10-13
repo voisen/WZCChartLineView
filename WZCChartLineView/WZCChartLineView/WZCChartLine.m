@@ -19,7 +19,7 @@
 #define Coords_Y_Tip 5 //刻度个数
 #define Coords_Y_Tip_Width 6 //刻度宽度
 #define Coords_Y_LableFont_Size 12 //Y轴标签的字体大小
-#define Coords_X_LableFont_Size 10 //Y轴标签的字体大小
+#define Coords_X_LableFont_Size 10 //X轴标签的字体大小
 #define Coords_X_Lable_Space 10 //X轴标签间距
 #define Coords_X_Verticlal_Line_Color [UIColor lightGrayColor].CGColor //垂直于X轴的线条颜色
 #define Coords_X_Verticlal_Line_Width 0.8 //垂直于X轴的线条宽度
@@ -62,6 +62,7 @@
 
 @property (assign,nonatomic) CGFloat minY;
 
+@property (assign,nonatomic) CGFloat x_coord_location;
 
 @end
 
@@ -69,6 +70,7 @@
     
     UIView *legendView; //图例视图
     NSArray *coords_y_tips;
+    BOOL isCustemY;
     
 }
 
@@ -115,6 +117,10 @@
 
         self.minY = 0;
     }
+    
+    if (!isCustemY) {
+        self.x_coord_location = [self getMinYValue];
+    }
 
 }
 #pragma mark -这些都是坐标系相关的
@@ -140,18 +146,23 @@
     //x坐标最右端顶点x值
     CGFloat coord_x_right_value = coord_x_lenth ;
     //x坐标轴的Y值
+    CGFloat tmp_value = self.x_coord_location - self.minY;
+    tmp_value = self.frame.size.height - tmp_value * _scale_Value - self.offset_bottom;
+    CGFloat coord_x_custem_y_value = tmp_value;
+    
+    
     CGFloat coord_x_yValue = _draw_view.height - self.offset_bottom;
     //画横坐标坐标轴
     UIBezierPath *coord_x_path = [UIBezierPath bezierPath];
     
-    [coord_x_path moveToPoint:CGPointMake(0, coord_x_yValue)];
-    [coord_x_path addLineToPoint:CGPointMake(coord_x_right_value, coord_x_yValue)];
+    [coord_x_path moveToPoint:CGPointMake(0, coord_x_custem_y_value)];
+    [coord_x_path addLineToPoint:CGPointMake(coord_x_right_value, coord_x_custem_y_value)];
     
     //画横坐标的箭头
     UIBezierPath *coordsArrow_path = [UIBezierPath bezierPath];
-    [coordsArrow_path moveToPoint:CGPointMake(coord_x_right_value - Arrows_Height, coord_x_yValue - Arrows_Size)];
-    [coordsArrow_path addLineToPoint:CGPointMake(coord_x_right_value, coord_x_yValue)];
-    [coordsArrow_path addLineToPoint:CGPointMake(coord_x_right_value - Arrows_Height, coord_x_yValue + Arrows_Size)];
+    [coordsArrow_path moveToPoint:CGPointMake(coord_x_right_value - Arrows_Height, coord_x_custem_y_value - Arrows_Size)];
+    [coordsArrow_path addLineToPoint:CGPointMake(coord_x_right_value, coord_x_custem_y_value)];
+    [coordsArrow_path addLineToPoint:CGPointMake(coord_x_right_value - Arrows_Height, coord_x_custem_y_value + Arrows_Size)];
     //绘制垂直于 Y 轴的线
     if(Show_Coords_Y_Verticlal_Line){
         UIBezierPath *Coords_Y_Verticlal_Line_path = [UIBezierPath bezierPath];
@@ -182,7 +193,7 @@
     CGFloat coords_max_y = coord_x_yValue;
     CGFloat coords_min_y = coords_max_y - ([self getMaxYValue] - self.minY) * self.scale_Value;
     
-    CGFloat label_CenterY = coord_x_yValue + self.offset_bottom / 2.0f;//标签的中心Y
+    CGFloat label_CenterY = coord_x_custem_y_value + [self getLabelWidthWithStr:@"字符串" font:[UIFont systemFontOfSize:Coords_X_LableFont_Size]].height / 1.5;//标签的中心Y
     [_x_values enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         @autoreleasepool {
             CGFloat label_CenterX = ((float)idx + 0.5f) * (max_label_size.width + Coords_X_Lable_Space);
@@ -276,8 +287,8 @@
                 y_value = _y_coord_View.height - ((step_value * i) * _scale_Value + self.offset_bottom);
             }else{
                 
-                y_label_tmp.text = [NSString stringWithFormat:@"%d",(int)((step_value) * i + self.minY)];
-                y_value = _y_coord_View.height - ((int)step_value * i * _scale_Value + self.offset_bottom);
+                y_label_tmp.text = [NSString stringWithFormat:@"%0.1f",((step_value) * i + self.minY)];
+                y_value = _y_coord_View.height - (step_value * i * _scale_Value + self.offset_bottom);
             }
             y_label_tmp.font = font;
             y_label_tmp.size = [self getLabelWidthWithStr:y_label_tmp.text font:font];
@@ -285,7 +296,7 @@
             y_label_tmp.center = CGPointMake(_y_coord_View.width - Arrows_Size * 2 - Coords_Y_Tip_Width - y_label_tmp.width / 2.0f, y_value);
             [_y_coord_View addSubview:y_label_tmp];
             if (i == 0) {
-                continue;
+//                continue;
             }
             
             UIBezierPath *tmp_path = [UIBezierPath bezierPath];
@@ -318,7 +329,6 @@
     for (int i = 0; i < _coords_y_values.count; i++) {
         NSArray *values_arr = [_coords_y_values objectAtIndex:i];
         UIBezierPath *value_path = [UIBezierPath bezierPath];
-        
         UIBezierPath *dots = [UIBezierPath bezierPath];
         NSMutableArray *points = [NSMutableArray array];
         [values_arr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -581,7 +591,7 @@
         [y_values_tmp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             @autoreleasepool {
                 CGFloat tmp_value = [obj floatValue] - self.minY;
-                tmp_value = self.frame.size.height - tmp_value * _scale_Value -self.offset_bottom;
+                tmp_value = self.frame.size.height - tmp_value * _scale_Value - self.offset_bottom;
                 [tmp_arr addObject:@(tmp_value)];
             }
         }];
@@ -655,6 +665,20 @@
     }
     _minY = minValue;
     
+}
+
+- (void)setXCoordinatesLocationInYValue:(CGFloat)yValue{
+    
+    isCustemY = YES;
+    
+    if (yValue > [self getMaxYValue] || yValue < [self getMinYValue]) {
+     
+        _x_coord_location = [self getMinYValue];
+        
+    }
+    
+    _x_coord_location = yValue;
+
 }
 
 #pragma mark - 点击事件的代理方法(数值显示)
