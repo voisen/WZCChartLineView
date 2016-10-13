@@ -119,7 +119,11 @@
     }
     
     if (!isCustemY) {
-        self.x_coord_location = [self getMinYValue];
+        if (self.minY != 0) {
+            self.x_coord_location = self.minY;
+        }else{
+            self.x_coord_location = 0;
+        }
     }
 
 }
@@ -671,9 +675,9 @@
     
     isCustemY = YES;
     
-    if (yValue > [self getMaxYValue] || yValue < [self getMinYValue]) {
+    if (yValue > [self getMaxYValue] || yValue < self.minY) {
      
-        _x_coord_location = [self getMinYValue];
+        yValue = self.minY;
         
     }
     
