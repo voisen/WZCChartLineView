@@ -98,21 +98,14 @@
 }
 
 - (void)setDefaultValue{
-    if (self.offset_top == 0) {
+    
+#warning 这里修改到视图边距的值
         self.offset_top = 40;
-    }
-    if (self.offset_left == 0) {
-        
         self.offset_left = 60;
-    }
-    if (self.offset_right == 0) {
-        
         self.offset_right = 40;
-    }
-    if (self.offset_bottom == 0) {
-        
         self.offset_bottom = 30;
-    }
+    
+/**************以下设置请勿更改****************/
     if (self.minY == 0) {
         CGFloat min_yValue = [self getMinYValue];
         if (min_yValue < 0) {
