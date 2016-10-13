@@ -24,7 +24,7 @@
      v = [[WZCChartLine alloc]initWithFrame:self.view.bounds];
     
     NSMutableArray *x_vls = [[NSMutableArray alloc]init];
-    for (int i = 0; i < 50; i ++) {
+    for (int i = 0; i < 20; i ++) {
         NSString *str = [NSString stringWithFormat:@"第%d天",i+1];
         [x_vls addObject:str];
     }
@@ -40,9 +40,10 @@
         [y_array addObject:arr];
     }
     // y轴坐标数组
-    v.y_values = @[@[@"-99",@"-65",@"-72",@"-87",@"-33",@"0",@"-43",@"-100"]];//y_array;
+    v.y_values = @[@[@"-100",@"-53",@"-72",@"47",@"-33",@"0",@"-23",@"100",@"66",@"89",@"-10",@"-53",@"32",@"-27",@"-93",@"50",@"17",@"8",@"-35",@"-94"]];//y_array;
     //折线名称
     v.y_titles = @[@"测试"];//@[@"黄金",@"黄金珠宝",@"项链首饰",@"项链",@"首饰",@"金币",@"销售量",@"单价浮动"];
+    [v setXCoordinatesLocationInYValue:0];
     [self.view addSubview:v];
 }
 
