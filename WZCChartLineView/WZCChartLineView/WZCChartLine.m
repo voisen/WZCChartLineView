@@ -114,8 +114,12 @@
         self.offset_bottom = 30;
     }
     if (self.minY == 0) {
-
-        self.minY = 0;
+        CGFloat min_yValue = [self getMinYValue];
+        if (min_yValue < 0) {
+            self.minY = min_yValue;
+        }else{
+            self.minY = 0;
+        }
     }
     
     if (!isCustemY) {
@@ -680,7 +684,6 @@
         yValue = self.minY;
         
     }
-    
     _x_coord_location = yValue;
 
 }
