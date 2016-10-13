@@ -43,8 +43,6 @@
     v.y_values = @[@[@"-99",@"-65",@"-72",@"-87",@"-33",@"0",@"-43",@"-100"]];//y_array;
     //折线名称
     v.y_titles = @[@"测试"];//@[@"黄金",@"黄金珠宝",@"项链首饰",@"项链",@"首饰",@"金币",@"销售量",@"单价浮动"];
-//    [v setMinY:10];
-//    [v setXCoordinatesLocationInYValue:0];
     [self.view addSubview:v];
 }
 

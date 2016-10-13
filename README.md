@@ -54,6 +54,13 @@
 */
 - (void)setMinY:(CGFloat)minValue;
 
+/**
+*  设置 X 坐标轴的位置
+*
+*  @param minValue 对应的 Y 值(默认为最小值)
+*/
+- (void)setXCoordinatesLocationInYValue:(CGFloat)yValue;
+
 ~~~~
 
 ##自定义配置
@@ -101,11 +108,5 @@ v.colorsArray = @[[UIColor greenColor],[UIColor redColor]];
 
 ~~~~
 
-##广告
 
-### What ? 什么? 英文文档看不懂? 不会使用 MKNetworkKit ? 这么好的框架都不会?
-
-### OUT啦...我们有中文文档 ! --> https://github.com/voisen/MKNetworkKit-chinese
-
-~~~~ 一笑而过  ~~~~  风中凌乱  ~~~~   不知所措     ~~~~~~
 
