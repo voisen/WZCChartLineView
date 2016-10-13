@@ -43,6 +43,7 @@
     v.y_values = y_array;
     //折线名称
     v.y_titles = @[@"黄金",@"黄金珠宝",@"项链首饰",@"项链",@"首饰",@"金币",@"销售量",@"单价浮动"];
+    [v setMinY:-1];
     [self.view addSubview:v];
 }
 

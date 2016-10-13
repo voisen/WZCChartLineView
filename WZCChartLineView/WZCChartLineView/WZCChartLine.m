@@ -60,6 +60,9 @@
 
 @property (assign,nonatomic) CGFloat offset_right;
 
+@property (assign,nonatomic) CGFloat minY;
+
+
 @end
 
 @implementation WZCChartLine{
@@ -75,12 +78,10 @@
     if (![self PASS_checkErrors]) {
         return;
     }
-    /*默认值*/
-    self.offset_top = 40;
-    self.offset_left = 60;
-    self.offset_right = 40;
-    self.offset_bottom = 30;
     /******/
+    
+    /*默认值*/
+    [self setDefaultValue];
     //转换坐标系
     [self drawCoordindined_Y];
     [self drawCoordindined_X];
@@ -92,6 +93,29 @@
         [self makecurveWithLabelWidth:_coords_x_label_width];
     }
     [self addLegend];
+}
+
+- (void)setDefaultValue{
+    if (self.offset_top == 0) {
+        self.offset_top = 40;
+    }
+    if (self.offset_left == 0) {
+        
+        self.offset_left = 60;
+    }
+    if (self.offset_right == 0) {
+        
+        self.offset_right = 40;
+    }
+    if (self.offset_bottom == 0) {
+        
+        self.offset_bottom = 30;
+    }
+    if (self.minY == 0) {
+
+        self.minY = 0;
+    }
+
 }
 #pragma mark -这些都是坐标系相关的
 //画坐标系
@@ -156,7 +180,7 @@
     
     UIBezierPath *Coords_X_Verticlal_Line_path = [UIBezierPath bezierPath];
     CGFloat coords_max_y = coord_x_yValue;
-    CGFloat coords_min_y = coords_max_y - [self getMaxYValue] * self.scale_Value;
+    CGFloat coords_min_y = coords_max_y - ([self getMaxYValue] - self.minY) * self.scale_Value;
     
     CGFloat label_CenterY = coord_x_yValue + self.offset_bottom / 2.0f;//标签的中心Y
     [_x_values enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -212,7 +236,7 @@
  */
 -(void)drawCoordindined_Y{
     //最大坐标(到顶)
-    CGFloat maxY_value = [self getMaxYValue] * 1.0f;
+    CGFloat maxY_value = [self getMaxYValue] * 1.0f - self.minY;
     //步进值
     CGFloat step_value = (maxY_value / Coords_Y_Tip);
     
@@ -248,11 +272,11 @@
             UILabel *y_label_tmp = [[UILabel alloc]init];
             CGFloat y_value;
             if (step_value < Coords_Y_Tip) {
-                y_label_tmp.text = [NSString stringWithFormat:@"%.1f",(step_value * i)];
+                y_label_tmp.text = [NSString stringWithFormat:@"%.1f",(step_value * i + self.minY)];
                 y_value = _y_coord_View.height - ((step_value * i) * _scale_Value + self.offset_bottom);
             }else{
                 
-                y_label_tmp.text = [NSString stringWithFormat:@"%d",(int)(step_value) * i];
+                y_label_tmp.text = [NSString stringWithFormat:@"%d",(int)((step_value) * i + self.minY)];
                 y_value = _y_coord_View.height - ((int)step_value * i * _scale_Value + self.offset_bottom);
             }
             y_label_tmp.font = font;
@@ -455,6 +479,27 @@
 }
 #pragma  mark - 一些必要的工具
 /**
+ *  返回最小的Y值
+ *
+ *  @return 返回最大的Y
+ */
+-(CGFloat)getMinYValue{
+    __block CGFloat min_tmp = MAXFLOAT;
+    //遍历获取
+    for (NSArray *array_tmp in _y_values) {
+        
+        [array_tmp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            @autoreleasepool {
+                CGFloat value_tmp = [obj floatValue];
+                min_tmp = min_tmp < value_tmp ? min_tmp:value_tmp;
+            }
+        }];
+        
+    }
+    return min_tmp;
+}
+
+/**
  *  返回最大的Y值
  *
  *  @return 返回最大的Y
@@ -535,7 +580,7 @@
         NSMutableArray *tmp_arr = [NSMutableArray array];
         [y_values_tmp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             @autoreleasepool {
-                CGFloat tmp_value = [obj floatValue];
+                CGFloat tmp_value = [obj floatValue] - self.minY;
                 tmp_value = self.frame.size.height - tmp_value * _scale_Value -self.offset_bottom;
                 [tmp_arr addObject:@(tmp_value)];
             }
@@ -551,12 +596,19 @@
  *  @return 返回YES表示通过检查
  */
 -(BOOL)PASS_checkErrors{
-    
-    if (CGRectEqualToRect(self.frame, CGRectZero)||self.x_values.count == 0 || self.y_values.count == 0) {
-        NSLog(@"view frame is zero !");
+    //|| || self.y_values.count == 0
+    if (CGRectEqualToRect(self.frame, CGRectZero)) {
+        
+        NSLog(@"frame 尺寸为空 : %@",NSStringFromCGRect(self.frame));
         return NO;
     }
-    if (_y_values.count == 0 || _x_values.count == 0) {
+    if (self.x_values.count == 0) {
+        NSLog(@"x 坐标值为空 : %@",self.x_values);
+        return NO;
+    }
+    if (self.y_values.count == 0) {
+        
+        NSLog(@"y 坐标值为空 : %@",self.y_values);
         return NO;
     }
     
@@ -589,6 +641,20 @@
         _colorsArray = color_array;
     }
     return _colorsArray;
+}
+
+
+#pragma mark - 设置最小的 Y 值
+- (void)setMinY:(CGFloat)minValue{
+    if (minValue < 0) {
+        minValue = [self getMinYValue];
+    }
+
+    if (minValue > [self getMaxYValue]) {
+        minValue = [self getMaxYValue] - (Coords_Y_Tip + 1) / 10.0f;
+    }
+    _minY = minValue;
+    
 }
 
 #pragma mark - 点击事件的代理方法(数值显示)

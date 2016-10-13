@@ -27,5 +27,13 @@ typedef enum : NSInteger {
 
 /* 以上 设置完毕后才调用绘图方法 */
 -(void)startDrawWithLineType:(WZCChartLineType)lineType;
+
+//可选设置
+/**
+ *  设置最小的 Y 值(默认为0) ,设置时需注意: 如果设置的值大于最大的 Y 值, 则设置为无效;
+ *
+ *  @param minValue 最小的 Y 值 (设置负数可以自动设置 Y 值,从最小的 Y 值起步)
+ */
+- (void)setMinY:(CGFloat)minValue;
 @end
 
