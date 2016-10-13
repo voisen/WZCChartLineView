@@ -16,7 +16,7 @@
 #define Arrows_Size 3 //箭头半径
 #define Arrows_Height 6 //箭头的高度
 #define Coords_lineColor [UIColor blackColor].CGColor //坐标线的颜色
-#define Coords_Y_Tip 5 //刻度个数
+#define Coords_Y_Tip 6 //刻度个数
 #define Coords_Y_Tip_Width 6 //刻度宽度
 #define Coords_Y_LableFont_Size 12 //Y轴标签的字体大小
 #define Coords_X_LableFont_Size 10 //X轴标签的字体大小
