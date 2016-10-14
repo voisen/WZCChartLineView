@@ -2,9 +2,10 @@
 一款可最大化自定义的折线图与曲线图
 
 ##特性
-
-* (new) 支持设置最小显示的 Y 值 (也支持自动设置 Y 值)
-
+* 支持设置 Y 轴刻度数量
+* 支持设置 X 轴的位置
+* 支持对称显示坐标轴
+* 支持设置最小显示的 Y 值 (也支持自动设置 Y 值)
 * 支持图例显示
 * 支持图例自由拖动
 * 点击点支持pop提示类型显示(微信的+号效果显示)
@@ -15,19 +16,21 @@
 
 ##更新日志
 
+2016.10.14 修复添加新功能后的重大 bug, 添加新功能(支持设置 x 轴的位置,支持对称于 X 轴显示坐标, 刻度的数量智能化)
+
 2016.10.13 添加支持设置最小显示的 Y 值 (也支持自动设置 Y 值)
 
 2016.8.12 添加可控参数,控制是否显示辅助线条;增加垂直于 Y 轴的辅助线
 
 ##效果图
 
+* 不要纠结,图例可以任意拖动,坐标轴可以自由设定
+
+![折线图](001.png)
+
 * 不要纠结,图例可以任意拖动
 
-![折线图](002.png)
-
-* 不要纠结,图例可以任意拖动
-
-![曲线图](001.png)
+![曲线图](002.png)
 
 * 不要纠结, 图例可以任意拖动, X坐标轴自定义在0点
 ![曲线图](003.png)
@@ -37,6 +40,7 @@
 
 ~~~~objc
 
+#pragma mark - 必须设置
 /** X 坐标轴上的值 (字符串)*/
 @property (nonnull,strong,nonatomic) NSArray<NSString*> *x_values;
 /* Y坐标上的值 支持多组值 (字符串)*/
@@ -49,7 +53,7 @@
 /* 以上 设置完毕后才调用绘图方法 */
 -(void)startDrawWithLineType:(WZCChartLineType)lineType;
 
-//可选设置
+#pragma mark - 可选设置
 /**
 *  设置最小的 Y 值(默认为0) ,设置时需注意: 如果设置的值大于最大的 Y 值, 则设置为无效;
 *
@@ -64,6 +68,20 @@
 */
 - (void)setXCoordinatesLocationInYValue:(CGFloat)yValue;
 
+/**
+*  设置 Y 轴刻度的个数
+*
+*  @param tipCont 默认为自动
+*/
+- (void)setCoords_Y_Tips:(NSInteger)tipCont;
+
+/**
+*  如果坐标轴中存在负数,调用此函数功能是对称显示坐标
+*
+*  @param show 是否显示0点刻度
+*/
+- (void)setCoordPlusAndMinusSymmetryShowZeroPoint:(BOOL)show;
+
 ~~~~
 
 ##自定义配置
@@ -73,7 +91,7 @@
 #define Arrows_Size 3 //箭头半径
 #define Arrows_Height 6 //箭头的高度
 #define Coords_lineColor [UIColor blackColor].CGColor //坐标线的颜色
-#define Coords_Y_Tip 5 //刻度个数
+//#define Coords_Y_Tip 5 //刻度个数  -->改动
 #define Coords_Y_Tip_Width 6 //刻度宽度
 #define Coords_Y_LableFont_Size 12 //Y轴标签的字体大小
 #define Coords_X_LableFont_Size 10 //Y轴标签的字体大小
