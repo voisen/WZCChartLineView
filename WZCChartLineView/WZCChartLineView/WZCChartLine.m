@@ -102,7 +102,7 @@
 #warning 这里修改到视图边距的值
         self.offset_top = 40;
         self.offset_left = 60;
-        self.offset_right = 40;
+        self.offset_right = 10;
         self.offset_bottom = 30;
     
 /**************以下设置请勿更改****************/
@@ -128,7 +128,7 @@
 //画坐标系
 -(void)drawCoordindined_X{
     
-    ChartView *chtView = [[ChartView alloc]initWithFrame:CGRectMake(self.offset_left - Arrows_Size, 0, self.width - self.offset_right + Arrows_Size, self.height)];
+    ChartView *chtView = [[ChartView alloc]initWithFrame:CGRectMake(self.offset_left - Arrows_Size, 0, self.width - self.offset_right + Arrows_Size - self.offset_left, self.height)];
     chtView.touch_delegate = self;
     //不允许弹跳效果
     chtView.bounces = NO;
