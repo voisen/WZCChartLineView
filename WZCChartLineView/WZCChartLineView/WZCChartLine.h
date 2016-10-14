@@ -16,6 +16,7 @@ typedef enum : NSInteger {
 
 @interface WZCChartLine : UIView<ChartViewDelegate>
 
+#pragma mark - 必须设置
 /** X 坐标轴上的值 (字符串)*/
 @property (nonnull,strong,nonatomic) NSArray<NSString*> *x_values;
 /* Y坐标上的值 支持多组值 (字符串)*/
@@ -28,7 +29,7 @@ typedef enum : NSInteger {
 /* 以上 设置完毕后才调用绘图方法 */
 -(void)startDrawWithLineType:(WZCChartLineType)lineType;
 
-//可选设置
+#pragma mark - 可选设置
 /**
  *  设置最小的 Y 值(默认为0) ,设置时需注意: 如果设置的值大于最大的 Y 值, 则设置为无效;
  *
@@ -42,5 +43,19 @@ typedef enum : NSInteger {
  *  @param minValue 对应的 Y 值(默认为最小值)
  */
 - (void)setXCoordinatesLocationInYValue:(CGFloat)yValue;
+
+/**
+ *  设置 Y 轴刻度的个数
+ *
+ *  @param tipCont 默认为自动
+ */
+- (void)setCoords_Y_Tips:(NSInteger)tipCont;
+
+/**
+ *  如果坐标轴中存在负数,调用此函数功能是对称显示坐标
+ *
+ *  @param show 是否显示0点刻度
+ */
+- (void)setCoordPlusAndMinusSymmetryShowZeroPoint:(BOOL)show;
 @end
 

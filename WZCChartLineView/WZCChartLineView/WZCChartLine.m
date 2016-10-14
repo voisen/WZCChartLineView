@@ -16,7 +16,6 @@
 #define Arrows_Size 3 //箭头半径
 #define Arrows_Height 6 //箭头的高度
 #define Coords_lineColor [UIColor blackColor].CGColor //坐标线的颜色
-#define Coords_Y_Tip 6 //刻度个数
 #define Coords_Y_Tip_Width 6 //刻度宽度
 #define Coords_Y_LableFont_Size 12 //Y轴标签的字体大小
 #define Coords_X_LableFont_Size 10 //X轴标签的字体大小
@@ -71,7 +70,8 @@
     UIView *legendView; //图例视图
     NSArray *coords_y_tips;
     BOOL isCustemY;
-    
+    NSInteger Coords_Y_Tip;
+    BOOL showZeroPoint; //是否显示0刻度点
 }
 
 -(void)startDrawWithLineType:(WZCChartLineType)lineType{
@@ -106,6 +106,11 @@
         self.offset_bottom = 30;
     
 /**************以下设置请勿更改****************/
+    
+    if (Coords_Y_Tip <= 0) {
+        Coords_Y_Tip = [self getTipsWithValue:[self getMaxYValue]];
+    }
+    
     if (self.minY == 0) {
         CGFloat min_yValue = [self getMinYValue];
         if (min_yValue < 0) {
@@ -243,6 +248,36 @@
     
 }
 
+
+#pragma mark - 自动获取刻度个数
+- (NSInteger)getTipsWithValue:(CGFloat)value{
+    NSInteger Multiple = 1;
+    if ((int)value != value) {
+        if (value * 10 == (int)(value * 10)) {
+            Multiple = 10;
+        }else{
+            Multiple = 100;
+        }
+    }
+    NSInteger maxTips = (self.height - self.offset_top - self.offset_bottom) / [self getLabelWidthWithStr:@"测试" font:[UIFont systemFontOfSize:Coords_Y_LableFont_Size]].height;
+    if (maxTips < 5) {
+        return maxTips;
+    }
+    for (int i = 5; i < maxTips; i ++) {
+        if ((int)(value * Multiple) % (i * Multiple) == 0) {
+            return i - 1;
+            break;
+        }
+    }
+    return 5;
+}
+
+#pragma mark 设置坐标轴对称
+- (void)setCoordPlusAndMinusSymmetryShowZeroPoint:(BOOL)show{
+    showZeroPoint = show;
+    _minY = - [self getMaxYValue];
+}
+
 /**
  *  画纵坐标
  */
@@ -282,6 +317,7 @@
     
     UIFont *font = [UIFont systemFontOfSize:Coords_Y_LableFont_Size];
     NSMutableArray *tips_array = [NSMutableArray array];
+    BOOL isShowZeroPoint = NO; //是否包含零点
     for (int i = 0; i <= Coords_Y_Tip; i ++) {
         @autoreleasepool {
             UILabel *y_label_tmp = [[UILabel alloc]init];
@@ -294,17 +330,38 @@
                 y_label_tmp.text = [NSString stringWithFormat:@"%0.1f",((step_value) * i + self.minY)];
                 y_value = _y_coord_View.height - (step_value * i * _scale_Value + self.offset_bottom);
             }
+            
+            if (!isShowZeroPoint) {
+                isShowZeroPoint = step_value * i == 0 ? YES:NO;
+            }
+            
             y_label_tmp.font = font;
             y_label_tmp.size = [self getLabelWidthWithStr:y_label_tmp.text font:font];
             y_label_tmp.height = Coords_Y_LableFont_Size;
             y_label_tmp.center = CGPointMake(_y_coord_View.width - Arrows_Size * 2 - Coords_Y_Tip_Width - y_label_tmp.width / 2.0f, y_value);
             [_y_coord_View addSubview:y_label_tmp];
-            if (i == 0) {
-//                continue;
+            if (i == Coords_Y_Tip && !isShowZeroPoint && showZeroPoint) {
+                //绘制0刻度点
+                
+                UILabel *y_label_zero = [[UILabel alloc]init];
+                CGFloat zero_value;
+                y_label_zero.text = [NSString stringWithFormat:@"%0.1f",0.0];
+                
+                CGFloat tmp_value = 0 - self.minY;
+                zero_value = self.frame.size.height - tmp_value * _scale_Value - self.offset_bottom;
+                y_label_zero.font = font;
+                y_label_zero.size = [self getLabelWidthWithStr:y_label_zero.text font:font];
+                y_label_zero.height = Coords_Y_LableFont_Size;
+                y_label_zero.center = CGPointMake(_y_coord_View.width - Arrows_Size * 2 - Coords_Y_Tip_Width - y_label_zero.width / 2.0f, zero_value);
+                [_y_coord_View addSubview:y_label_zero];
+                
+                UIBezierPath *tmp_path = [UIBezierPath bezierPath];
+                [tmp_path moveToPoint:CGPointMake(_y_coord_View.width - Arrows_Size - Coords_Y_Tip_Width, zero_value)];
+                [tmp_path addLineToPoint:CGPointMake(_y_coord_View.width - Arrows_Size, zero_value)];
+                [coords_steps appendPath:tmp_path];
+                
             }
-            
             UIBezierPath *tmp_path = [UIBezierPath bezierPath];
-            
             [tmp_path moveToPoint:CGPointMake(_y_coord_View.width - Arrows_Size - Coords_Y_Tip_Width, y_value)];
             [tmp_path addLineToPoint:CGPointMake(_y_coord_View.width - Arrows_Size, y_value)];
             [tips_array addObject:@(y_value)];
@@ -326,6 +383,7 @@
     [_y_coord_View.layer addSublayer:coordsLayer];
     [self addSubview:_y_coord_View];
 }
+
 
 #pragma mark - 曲线与折线的算法
 //画曲线
@@ -657,29 +715,39 @@
     return _colorsArray;
 }
 
+#pragma mark - 设置刻度的个数
+- (void)setCoords_Y_Tips:(NSInteger)tipCont{
+
+    Coords_Y_Tip = tipCont;
+}
 
 #pragma mark - 设置最小的 Y 值
 - (void)setMinY:(CGFloat)minValue{
     if (minValue < 0) {
         minValue = [self getMinYValue];
     }
-
     if (minValue > [self getMaxYValue]) {
         minValue = [self getMaxYValue] - (Coords_Y_Tip + 1) / 10.0f;
     }
     _minY = minValue;
-    
+    if (isCustemY) {
+        [self setXCoordinatesLocationInYValue:_x_coord_location];
+    }
 }
 
 - (void)setXCoordinatesLocationInYValue:(CGFloat)yValue{
     
     isCustemY = YES;
     
-    if (yValue > [self getMaxYValue] || yValue < self.minY) {
-     
+    if (yValue < self.minY) {
+        
         yValue = self.minY;
         
     }
+    if (yValue > [self getMaxYValue]) {
+        yValue = [self getMaxYValue];
+    }
+    
     _x_coord_location = yValue;
 
 }
