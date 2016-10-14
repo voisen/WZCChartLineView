@@ -72,6 +72,7 @@
     BOOL isCustemY;
     NSInteger Coords_Y_Tip;
     BOOL showZeroPoint; //是否显示0刻度点
+    CGFloat maxY;
 }
 
 -(void)startDrawWithLineType:(WZCChartLineType)lineType{
@@ -100,12 +101,12 @@
 - (void)setDefaultValue{
     
 #warning 这里修改到视图边距的值
-        self.offset_top = 40;
-        self.offset_left = 60;
-        self.offset_right = 10;
-        self.offset_bottom = 30;
+    self.offset_top = 40;
+    self.offset_left = 60;
+    self.offset_right = 10;
+    self.offset_bottom = 30;
     
-/**************以下设置请勿更改****************/
+    /**************以下设置请勿更改****************/
     
     if (Coords_Y_Tip <= 0) {
         Coords_Y_Tip = [self getTipsWithValue:[self getMaxYValue]];
@@ -127,7 +128,7 @@
             self.x_coord_location = 0;
         }
     }
-
+    
 }
 #pragma mark -这些都是坐标系相关的
 //画坐标系
@@ -275,7 +276,16 @@
 #pragma mark 设置坐标轴对称
 - (void)setCoordPlusAndMinusSymmetryShowZeroPoint:(BOOL)show{
     showZeroPoint = show;
-    _minY = - [self getMaxYValue];
+    if ([self getMinYValue] < 0) {
+        
+        if (- [self getMinYValue] > [self getMaxYValue]) {
+            maxY = - [self getMinYValue];
+        }else{
+            
+            _minY = - [self getMaxYValue];
+            
+        }
+    }
 }
 
 /**
@@ -320,8 +330,10 @@
     BOOL isShowZeroPoint = NO; //是否包含零点
     for (int i = 0; i <= Coords_Y_Tip; i ++) {
         @autoreleasepool {
+            
             UILabel *y_label_tmp = [[UILabel alloc]init];
             CGFloat y_value;
+            
             if (step_value < Coords_Y_Tip) {
                 y_label_tmp.text = [NSString stringWithFormat:@"%.1f",(step_value * i + self.minY)];
                 y_value = _y_coord_View.height - ((step_value * i) * _scale_Value + self.offset_bottom);
@@ -334,15 +346,15 @@
             if (!isShowZeroPoint) {
                 isShowZeroPoint = step_value * i == 0 ? YES:NO;
             }
-            
             y_label_tmp.font = font;
             y_label_tmp.size = [self getLabelWidthWithStr:y_label_tmp.text font:font];
             y_label_tmp.height = Coords_Y_LableFont_Size;
             y_label_tmp.center = CGPointMake(_y_coord_View.width - Arrows_Size * 2 - Coords_Y_Tip_Width - y_label_tmp.width / 2.0f, y_value);
             [_y_coord_View addSubview:y_label_tmp];
+            
+            
             if (i == Coords_Y_Tip && !isShowZeroPoint && showZeroPoint) {
                 //绘制0刻度点
-                
                 UILabel *y_label_zero = [[UILabel alloc]init];
                 CGFloat zero_value;
                 y_label_zero.text = [NSString stringWithFormat:@"%0.1f",0.0];
@@ -577,7 +589,10 @@
  *  @return 返回最大的Y
  */
 -(CGFloat)getMaxYValue{
-    __block CGFloat max_tmp = - MAXFLOAT;
+    if (maxY == 0) {
+        maxY = - MAXFLOAT;
+    }
+    __block CGFloat max_tmp = maxY;
     //遍历获取
     for (NSArray *array_tmp in _y_values) {
         
@@ -717,7 +732,7 @@
 
 #pragma mark - 设置刻度的个数
 - (void)setCoords_Y_Tips:(NSInteger)tipCont{
-
+    
     Coords_Y_Tip = tipCont;
 }
 
@@ -749,7 +764,7 @@
     }
     
     _x_coord_location = yValue;
-
+    
 }
 
 #pragma mark - 点击事件的代理方法(数值显示)
