@@ -21,15 +21,29 @@ typedef enum : NSInteger {
 @property (nonnull,strong,nonatomic) NSArray<NSString*> *x_values;
 /* Y坐标上的值 支持多组值 (字符串)*/
 @property (nonnull,strong,nonatomic) NSArray<NSArray<NSString*> * > *y_values;
-/* 折线的名称/类别 (有几条直线就有几个名字,默认无) */
-@property (nonnull,strong,nonatomic) NSArray<NSString*> *y_titles;
-/* 折线的颜色数组(默认随机方法) */
-@property (nonnull,strong,nonatomic) NSArray<UIColor *> *colorsArray;
-
 /* 以上 设置完毕后才调用绘图方法 */
 -(void)startDrawWithLineType:(WZCChartLineType)lineType;
 
 #pragma mark - 可选设置
+
+/** 是否显示图例(默认 NO) 需要y_titles不为空*/
+@property (nonatomic,assign) BOOL showLegend;
+
+/** Y轴显示的单位 */
+@property (nullable,nonatomic,copy) NSString *yUnit;
+
+/**
+ X轴的单位(用于pop提示)
+ */
+@property (nullable,nonatomic,copy) NSString *xUnit;
+
+/* 折线的名称/类别 (有几条直线就有几个名字,默认无,图例/pop提示用) */
+@property (nonnull,strong,nonatomic) NSArray<NSString*> *y_titles;
+
+/* 折线的颜色数组(默认随机方法) */
+@property (nonnull,strong,nonatomic) NSArray<UIColor *> *colorsArray;
+
+
 /**
  *  设置最小的 Y 值(默认为0) ,设置时需注意: 如果设置的值大于最大的 Y 值, 则设置为无效;
  *

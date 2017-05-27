@@ -62,10 +62,10 @@
 // BACKGROUND GRADIENT
 
 //bottom color white in gradient bg
-#define kGradientBottomColor [UIColor colorWithRed:0.98f green:0.98f blue:0.98f alpha:kBoxAlpha]
+#define kGradientBottomColor [UIColor colorWithRed:0.400 green:0.855 blue:0.761 alpha:1.00]//[UIColor colorWithRed:0.98f green:0.98f blue:0.98f alpha:kBoxAlpha]
 
 //top color white value in gradient bg
-#define kGradientTopColor [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:kBoxAlpha]
+#define kGradientTopColor [UIColor colorWithRed:0.400 green:0.855 blue:0.761 alpha:1.00]//[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:kBoxAlpha]
 
 
 // TITLE GRADIENT
@@ -84,7 +84,7 @@
 
 //normal text font
 #warning 此处修改提示字体的大小 this could set font
-#define kTextFont [UIFont fontWithName:@"HelveticaNeue" size:11.f]
+#define kTextFont [UIFont fontWithName:@"HelveticaNeue" size:12.f]
 
 //normal text color
 #define kTextColor [UIColor colorWithRed:0.329 green:0.341 blue:0.353 alpha:1]

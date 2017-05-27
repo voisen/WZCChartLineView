@@ -1,6 +1,13 @@
 # WZCChartLineView
 一款可最大化自定义的折线图与曲线图
 
+	感谢大家对这款曲线/折线图的厚爱, 由于这款折线图目前无法满足实际开发中的效果与用户体验,
+	 新的折线图 XCharts 已经出现, XCharts支持实时回放,去除pop数值提示,提供最新的提示方式,
+	 同时支持柱状图.
+`XCharts` 体验地址: [https://github.com/voisen/XCharts](https://github.com/voisen/XCharts)  
+		
+老司机们 快快[上车](https://github.com/voisen/XCharts)吧
+
 ##特性
 * 支持设置 Y 轴刻度数量
 * 支持设置 X 轴的位置
@@ -15,6 +22,7 @@
 * 其他...
 
 ##更新日志
+2017.05.27 修复部分bug
 
 2016.10.14 修复添加新功能后的重大 bug, 添加新功能(支持设置 x 轴的位置,支持对称于 X 轴显示坐标, 刻度的数量智能化)
 

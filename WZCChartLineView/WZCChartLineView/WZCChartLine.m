@@ -15,17 +15,18 @@
 /*配置线条的宏*/
 #define Arrows_Size 3 //箭头半径
 #define Arrows_Height 6 //箭头的高度
-#define Coords_lineColor [UIColor blackColor].CGColor //坐标线的颜色
-#define Coords_Y_Tip_Width 6 //刻度宽度
-#define Coords_Y_LableFont_Size 12 //Y轴标签的字体大小
+#define Coords_lineColor [UIColor colorWithRed:0.000 green:0.565 blue:0.459 alpha:1.00].CGColor //坐标线的颜色
+#define Coords_lineWidth 2.0f
+#define Coords_Y_Tip_Width 4 //刻度宽度
+#define Coords_Y_LableFont_Size 10 //Y轴标签的字体大小
 #define Coords_X_LableFont_Size 10 //X轴标签的字体大小
-#define Coords_X_Lable_Space 10 //X轴标签间距
+#define Coords_X_Lable_Space 6 //X轴标签间距
 #define Coords_X_Verticlal_Line_Color [UIColor lightGrayColor].CGColor //垂直于X轴的线条颜色
-#define Coords_X_Verticlal_Line_Width 0.8 //垂直于X轴的线条宽度
+#define Coords_X_Verticlal_Line_Width 0.2 //垂直于X轴的线条宽度
 #define Coords_Values_Line_Width 1.8 //折线的线条宽度
 #define Coords_Legend_Font_Size 15 //图例的字体大小
 #define Coords_Y_Verticlal_Line_Color [UIColor lightGrayColor].CGColor //垂直于Y轴的线条颜色
-#define Coords_Y_Verticlal_Line_Width 0.8 //垂直于Y轴的线条宽度
+#define Coords_Y_Verticlal_Line_Width 0.2 //垂直于Y轴的线条宽度
 #define Show_Coords_X_Verticlal_Line YES // 显示垂直于X轴的线条
 #define Show_Coords_Y_Verticlal_Line YES //显示垂直于Y轴的线条
 
@@ -78,9 +79,9 @@
 -(void)startDrawWithLineType:(WZCChartLineType)lineType{
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.layer.sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-    if (![self PASS_checkErrors]) {
-        return;
-    }
+//    if (![self PASS_checkErrors]) {
+//        return;
+//    }
     /******/
     
     /*默认值*/
@@ -101,13 +102,18 @@
 - (void)setDefaultValue{
     
 #warning 这里修改到视图边距的值
-    self.offset_top = 40;
-    self.offset_left = 60;
-    self.offset_right = 10;
-    self.offset_bottom = 30;
-    
+    self.offset_top = 20;
+//    self.offset_left = [WZCTool getTextSizeWithText:[NSString stringWithFormat:@"%0.1f",[self getMaxYValue]] Font:WZC_FONT(Coords_Y_LableFont_Size) MaxSize:CGSizeZero].width + 18;
+    self.offset_left = [[NSString stringWithFormat:@"%0.1f",[self getMaxYValue]] boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:Coords_Y_LableFont_Size]} context:nil].size.width + 18;
+    self.offset_right = 20;
+    self.offset_bottom = 16;
+    if (!_x_values.count) {
+        _x_values = @[@"",@"",@"",@"",@"",@"",@"",@"",@"",@""];
+    }
+    if (!_y_values.count) {
+        _y_values = @[@[]];
+    }
     /**************以下设置请勿更改****************/
-    
     if (Coords_Y_Tip <= 0) {
         Coords_Y_Tip = [self getTipsWithValue:[self getMaxYValue]];
     }
@@ -134,10 +140,11 @@
 //画坐标系
 -(void)drawCoordindined_X{
     
-    ChartView *chtView = [[ChartView alloc]initWithFrame:CGRectMake(self.offset_left - Arrows_Size, 0, self.width - self.offset_right + Arrows_Size - self.offset_left, self.height)];
+    ChartView *chtView = [[ChartView alloc]initWithFrame:CGRectMake(self.offset_left - Arrows_Size, 0, self.width + Arrows_Size - self.offset_left, self.height)];
     chtView.touch_delegate = self;
     //不允许弹跳效果
     chtView.bounces = NO;
+    chtView.showsHorizontalScrollIndicator = NO;
     _draw_view = chtView;
     //获取最大的label的尺寸
     CGSize max_label_size = [self getX_MaxLabelSize];
@@ -241,7 +248,7 @@
     CAShapeLayer *coords_layer = [[CAShapeLayer alloc]init];
     coords_layer.frame = _draw_view.bounds;
     coords_layer.path = coords_path.CGPath;
-    coords_layer.lineWidth = 1.0f;
+    coords_layer.lineWidth = Coords_lineWidth;
     coords_layer.strokeColor = Coords_lineColor;
     coords_layer.fillColor = [UIColor clearColor].CGColor;
     [_draw_view.layer addSublayer:coords_layer];
@@ -310,8 +317,9 @@
     CGFloat coord_y_top = self.offset_top / 3.0f;
     UIBezierPath *y_coord_path = [UIBezierPath bezierPath];
     [y_coord_path moveToPoint:CGPointMake(_y_coord_View.width - Arrows_Size, coord_y_top)];
-    [y_coord_path addLineToPoint:CGPointMake(_y_coord_View.width - Arrows_Size, _y_coord_View.height - self.offset_bottom + 0.2)];
-    //    [y_coord_path addLineToPoint:CGPointMake(_y_coord_View.width, _y_coord_View.height - self.offset_bottom)];
+    [y_coord_path addLineToPoint:CGPointMake(_y_coord_View.width - Arrows_Size, _y_coord_View.height - self.offset_bottom + 1)];
+    //坐标空隙补偿
+//    [y_coord_path addLineToPoint:CGPointMake(_y_coord_View.width, _y_coord_View.height - self.offset_bottom)];
     
     /**
      *  绘制箭头
@@ -339,7 +347,7 @@
                 y_value = _y_coord_View.height - ((step_value * i) * _scale_Value + self.offset_bottom);
             }else{
                 
-                y_label_tmp.text = [NSString stringWithFormat:@"%0.1f",((step_value) * i + self.minY)];
+                y_label_tmp.text = [NSString stringWithFormat:@"%0.0f",((step_value) * i + self.minY)];
                 y_value = _y_coord_View.height - (step_value * i * _scale_Value + self.offset_bottom);
             }
             
@@ -367,11 +375,30 @@
                 y_label_zero.center = CGPointMake(_y_coord_View.width - Arrows_Size * 2 - Coords_Y_Tip_Width - y_label_zero.width / 2.0f, zero_value);
                 [_y_coord_View addSubview:y_label_zero];
                 
+
                 UIBezierPath *tmp_path = [UIBezierPath bezierPath];
                 [tmp_path moveToPoint:CGPointMake(_y_coord_View.width - Arrows_Size - Coords_Y_Tip_Width, zero_value)];
                 [tmp_path addLineToPoint:CGPointMake(_y_coord_View.width - Arrows_Size, zero_value)];
                 [coords_steps appendPath:tmp_path];
-                
+            }
+            
+            if (i == 0) {
+                continue;
+            }
+            
+            //单位设置
+            if (i == Coords_Y_Tip) {
+                if (self.yUnit) {
+                    UILabel *unitLab = [[UILabel alloc] init];
+                    unitLab.text = self.yUnit;
+                    unitLab.textColor = [UIColor colorWithRed:0.400 green:0.855 blue:0.761 alpha:1.00];
+                    unitLab.textAlignment = NSTextAlignmentCenter;
+                    unitLab.font = [UIFont systemFontOfSize:11];
+                    [unitLab sizeToFit];
+                    unitLab.y = y_label_tmp.y - unitLab.height - 3;
+                    unitLab.centerX = _y_coord_View.centerX;
+                    [_y_coord_View addSubview:unitLab];
+                }
             }
             UIBezierPath *tmp_path = [UIBezierPath bezierPath];
             [tmp_path moveToPoint:CGPointMake(_y_coord_View.width - Arrows_Size - Coords_Y_Tip_Width, y_value)];
@@ -389,7 +416,7 @@
     CAShapeLayer *coordsLayer = [[CAShapeLayer alloc]init];
     coordsLayer.frame = _y_coord_View.bounds;
     coordsLayer.path = y_coord_path.CGPath;
-    coordsLayer.lineWidth = 1.0f;
+    coordsLayer.lineWidth = Coords_lineWidth;
     coordsLayer.strokeColor = Coords_lineColor;
     coordsLayer.fillColor = [UIColor clearColor].CGColor;
     [_y_coord_View.layer addSublayer:coordsLayer];
@@ -422,7 +449,9 @@
         }];
         
         [value_path moveToPoint: [[points firstObject] CGPointValue]];
-        [value_path addBezierThroughPoints:points];
+        if (points.count>0) {
+            [value_path addBezierThroughPoints:points];
+        }
         [value_path appendPath:dots];
         
         CAShapeLayer *value_layer = [[CAShapeLayer alloc]init];
@@ -484,7 +513,7 @@
  */
 -(void)addLegend{
     
-    if (_y_titles.count == 0 || _y_titles == nil) {
+    if (_y_titles.count == 0 || _y_titles == nil || _showLegend == NO) {
         return;
     }
     
@@ -565,13 +594,16 @@
 /**
  *  返回最小的Y值
  *
- *  @return 返回最大的Y
+ *  @return 返回最小的Y
  */
 -(CGFloat)getMinYValue{
     __block CGFloat min_tmp = MAXFLOAT;
+    BOOL isZero = YES;
     //遍历获取
     for (NSArray *array_tmp in _y_values) {
-        
+        if (array_tmp.count) {
+            isZero = NO;
+        }
         [array_tmp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             @autoreleasepool {
                 CGFloat value_tmp = [obj floatValue];
@@ -579,6 +611,9 @@
             }
         }];
         
+    }
+    if (isZero) {
+        return 0;
     }
     return min_tmp;
 }
@@ -592,19 +627,24 @@
     if (maxY == 0) {
         maxY = - MAXFLOAT;
     }
+    BOOL isZero = YES;
     __block CGFloat max_tmp = maxY;
     //遍历获取
     for (NSArray *array_tmp in _y_values) {
-        
+        if (array_tmp.count) {
+            isZero = NO;
+        }
         [array_tmp enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             @autoreleasepool {
                 CGFloat value_tmp = [obj floatValue];
                 max_tmp = max_tmp > value_tmp ? max_tmp:value_tmp;
             }
         }];
-        
     }
-    return max_tmp;
+    if (isZero) {
+        return 1;
+    }
+    return max_tmp * 1.1;
 }
 /**
  *  根据Y轴的标题宽度获取最大值获取Size
@@ -690,12 +730,12 @@
         return NO;
     }
     if (self.x_values.count == 0) {
-        NSLog(@"x 坐标值为空 : %@",self.x_values);
+//        NSLog(@"x 坐标值为空 : %@",self.x_values);
         return NO;
     }
     if (self.y_values.count == 0) {
         
-        NSLog(@"y 坐标值为空 : %@",self.y_values);
+//        NSLog(@"y 坐标值为空 : %@",self.y_values);
         return NO;
     }
     
@@ -769,7 +809,15 @@
 
 #pragma mark - 点击事件的代理方法(数值显示)
 -(void)chartViewTouchPoint:(CGPoint)point{
-    
+    __block BOOL canTouch = NO;
+    [_y_values enumerateObjectsUsingBlock:^(NSArray<NSString *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.count) {
+            canTouch = YES;
+        }
+    }];
+    if (!canTouch) {
+        return;
+    }
     CGFloat x_touch_space = _coords_x_label_width / 2.0f;
     __block NSInteger x_idx = -1;
     __block NSInteger y_idx = -1;
@@ -801,15 +849,21 @@
     NSMutableString *info = [NSMutableString string];
     NSString *valueStr = _y_values[y_idx][x_idx];
     for (int i = 0 ; i < _y_values.count; i ++) {
-        if ([_y_values[i][x_idx] isEqualToString:valueStr]) {
+        if (_y_values[i].count>x_idx&&[_y_values[i][x_idx] isEqualToString:valueStr]) {
             if (![info isEqualToString:@""]) {
                 [info appendString:@"\n"];
             }
             if (_y_titles.count > i) {
                 [info appendString:_y_titles[i]];
-                [info appendString:@"\n"];
+//                [info appendString:@"\n"];
             }
-            [info appendString:[NSString stringWithFormat:@"%@:%@",_x_values[x_idx],_y_values[i][x_idx]]];
+            
+            NSString *xStr = @"";
+            NSString *yStr = @"";
+            if (self.yUnit.length>0) {
+                yStr = [NSString stringWithFormat:@"%@",self.yUnit];
+            }
+            [info appendString:[NSString stringWithFormat:@"(%@%@, %@ %@)",_x_values[x_idx],xStr,_y_values[i][x_idx],yStr]];
         }
     }
     
@@ -823,19 +877,27 @@
 BOOL isMove;
 CGPoint legend_point;
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    if (isMove) {
+        return;
+    }
     [super touchesBegan:touches withEvent:event];
     isMove = NO;
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
     if (CGRectContainsPoint(legendView.frame, point)) {
         legend_point = [touch locationInView:legendView];
-        isMove = YES;
+//        isMove = YES;
     }
 }
 
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    isMove = NO;
+    [super touchesEnded:touches withEvent:event];
+}
+
 -(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [super touchesMoved:touches withEvent:event];
     if (!isMove) {
+        [super touchesMoved:touches withEvent:event];
         return;
     }
     @autoreleasepool {

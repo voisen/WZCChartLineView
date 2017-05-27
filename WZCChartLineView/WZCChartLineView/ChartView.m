@@ -11,10 +11,32 @@
 
 @implementation ChartView
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    UITouch *touch = [touches anyObject];
-    CGPoint touch_point = [touch locationInView:self];
-    [self.touch_delegate chartViewTouchPoint:touch_point];
+
+- (instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+    longPress.minimumPressDuration = 0.2;
+    [self addGestureRecognizer:longPress];
+    
+    return self;
 }
+
+- (void)longPress:(UIGestureRecognizer*)press{
+
+    if (press.state == UIGestureRecognizerStateBegan) {
+        
+        CGPoint point = [press locationInView:self];
+        
+        [self.touch_delegate chartViewTouchPoint:point];
+    }
+
+}
+
+//-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    UITouch *touch = [touches anyObject];
+//    CGPoint touch_point = [touch locationInView:self];
+//    [self.touch_delegate chartViewTouchPoint:touch_point];
+//}
 
 @end
